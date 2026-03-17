@@ -1,0 +1,3 @@
+INHERIT: .config/copier/mkdocs.yaml
+site_name: "Lazy Loader"
+site_description:

@@ -1,0 +1,91 @@
+#:schema https://json.schemastore.org/pyproject.json
+# ref: <https://packaging.python.org/en/latest/specifications/pyproject-toml/>
+
+[project]
+name = "liblaf-lazy-loader"
+description = ""
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [
+  { name = "liblaf", email = "30631553+liblaf@users.noreply.github.com" }
+]
+keywords = []
+classifiers = [
+  # ref: <https://pypi.org/classifiers/>
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed"
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.urls]
+# ref: <https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels>
+"Changelog" = "https://github.com/liblaf/lazy-loader/blob/main/CHANGELOG.md"
+"Documentation" = "https://liblaf.github.io/lazy-loader/"
+"Funding" = "https://github.com/liblaf/lazy-loader?sponsor=1"
+"Homepage" = "https://github.com/liblaf/lazy-loader"
+"Issue Tracker" = "https://github.com/liblaf/lazy-loader/issues"
+"Release Notes" = "https://github.com/liblaf/lazy-loader/releases"
+"Source Code" = "https://github.com/liblaf/lazy-loader"
+
+[dependency-groups]
+dev = ["rich>=14,<15"]
+build = ["check-wheel-contents>=0.6,<0.7", "hatch>=1,<2", "twine>=6,<7"]
+docs = ["liblaf-mkdocs-preset>=0.3,<0.4", "mkdocs>=1,<2"]
+test = ["liblaf-pytest-preset>=0.1,<0.2", "pytest>=9,<10"]
+
+[build-system]
+requires = ["hatch-vcs", "hatchling"]
+build-backend = "hatchling.build"
+
+[tool.check-wheel-contents]
+ignore = ["W002"]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/liblaf/lazy_loader/_version.py"
+
+[tool.hatch.build.targets.sdist]
+only-include = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/liblaf"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.pyright]
+extends = ".config/linters/pyrightconfig.json"
+
+[tool.pytest]
+addopts = [
+  "--doctest-modules",
+  "--hypothesis-explain",
+  "--import-mode=importlib",
+  "--showlocals"
+]
+consider_namespace_packages = true
+strict = true
+testpaths = ["benches", "src", "tests"]
+
+[tool.ruff]
+extend = ".config/linters/.ruff.toml"
+
+[tool.ty.environment]
+python = ".venv"
+
+[tool.uv]
+default-groups = "all"
