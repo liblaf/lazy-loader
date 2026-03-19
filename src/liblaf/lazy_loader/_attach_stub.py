@@ -14,24 +14,26 @@ type Dir = Callable[[], list[str]]
 type All = list[str]
 
 
-def attach_stub(name: str, package: str | None, file: str) -> tuple[GetAttr, Dir, All]:
+def attach_stub(
+    module: str, package: str | None, file: str
+) -> tuple[GetAttr, Dir, All]:
     loaders: dict[str, Loader] = _parse_stub(file)
-    module: types.ModuleType = sys.modules[name]
-    ctx: LoaderContext = LoaderContext(name, package)
+    mod: types.ModuleType = sys.modules[module]
+    ctx: LoaderContext = LoaderContext(module, package)
     __all__: list[str] = sorted(loaders.keys())
 
-    @export(name)
+    @export(module)
     @normalize_qualname
     def __getattr__(name: str) -> Any:  # noqa: N807
         if name in loaders:
             loader: Loader = loaders[name]
             value: Any = loader.load(ctx)
-            setattr(module, name, value)
+            setattr(mod, name, value)
             return value
-        msg: str = f"module '{package}' has no attribute '{name}'"
-        raise AttributeError(msg, name=name, obj=module)
+        msg: str = f"module '{module}' has no attribute '{name}'"
+        raise AttributeError(msg, name=name, obj=mod)
 
-    @export(name)
+    @export(module)
     @normalize_qualname
     def __dir__() -> list[str]:  # noqa: N807
         return __all__.copy()
