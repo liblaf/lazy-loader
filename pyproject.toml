@@ -84,8 +84,5 @@ testpaths = ["benches", "src", "tests"]
 [tool.ruff]
 extend = ".config/linters/.ruff.toml"
 
-[tool.ty.environment]
-python = ".venv"
-
 [tool.uv]
 default-groups = "all"

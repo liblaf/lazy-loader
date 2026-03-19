@@ -8,12 +8,15 @@ caseSensitive: false
 enableGlobDot: true
 ignorePaths:
   - .git/
+  - cspell.*
+  - "*.lock"
 ignoreRandomStrings: true
 maxFileSize: 500KB
 useGitignore: true
 words:
   - arithmatex
   - asname
+  - delenv
   - direnv
   - fieldz
   - getattr
@@ -39,7 +42,6 @@ words:
   - sdist
   - tombi
   - trimesh
-  - unshallow
   - uuidgen
   - venv
   - virtualenv

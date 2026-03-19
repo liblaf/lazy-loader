@@ -1,21 +1,8 @@
 import inspect
 import sys
 
-import pytest
 
-
-@pytest.fixture
-def clean_fake_pkg() -> None:
-    sys.modules.pop("rich", None)
-    sys.modules.pop("tests.fake_pkg", None)
-    sys.modules.pop("tests.fake_pkg._from_import_as", None)
-    sys.modules.pop("tests.fake_pkg._from_import", None)
-    sys.modules.pop("tests.fake_pkg._import_as", None)
-    sys.modules.pop("tests.fake_pkg._import", None)
-    sys.modules.pop("tests.fake_pkg.e", None)
-
-
-def test_relative(clean_fake_pkg: None) -> None:  # noqa: ARG001
+def test_relative() -> None:
     assert "tests.fake_pkg" not in sys.modules
     assert "tests.fake_pkg._from_import" not in sys.modules
     assert "tests.fake_pkg._from_import_as" not in sys.modules
@@ -61,7 +48,7 @@ def test_relative(clean_fake_pkg: None) -> None:  # noqa: ARG001
     assert "tests.fake_pkg.e" in sys.modules
 
 
-def test_absolute(clean_fake_pkg: None) -> None:  # noqa: ARG001
+def test_absolute() -> None:
     assert "rich" not in sys.modules
 
     from . import fake_pkg

@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from ._loader import Loader, LoaderContext
-from ._utils import export
+from ._utils import env_bool, export, normalize_qualname
 from ._visitor import StubVisitor
 
 type GetAttr = Callable[[str], Any]
@@ -21,6 +21,7 @@ def attach_stub(name: str, package: str | None, file: str) -> tuple[GetAttr, Dir
     __all__: list[str] = sorted(loaders.keys())
 
     @export(name)
+    @normalize_qualname
     def __getattr__(name: str) -> Any:  # noqa: N807
         if name in loaders:
             loader: Loader = loaders[name]
@@ -31,8 +32,13 @@ def attach_stub(name: str, package: str | None, file: str) -> tuple[GetAttr, Dir
         raise AttributeError(msg, name=name, obj=module)
 
     @export(name)
+    @normalize_qualname
     def __dir__() -> list[str]:  # noqa: N807
         return __all__.copy()
+
+    if env_bool("EAGER_IMPORT", False):  # noqa: FBT003
+        for attr_name in __all__:
+            __getattr__(attr_name)
 
     return __getattr__, __dir__, __all__
 
