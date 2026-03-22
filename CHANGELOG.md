@@ -7,6 +7,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Changelog](https://github.com/conventional-changelog/conventional-changelog-config-spec/blob/master/versions/2.2.0/README.md),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1](https://github.com/liblaf/lazy-loader/releases/tag/v0.1.1) - 2026-03-19
+
+### 🐛 Bug Fixes
+
+- clarify attach_stub module handling - [11dce93](https://github.com/liblaf/lazy-loader/commit/11dce93420f4e89ae8effeb6755bf166efb59d55) by [@liblaf](https://github.com/liblaf)
+
+### ❤️ Contributors
+
+- [@liblaf](https://github.com/liblaf)
+
 ## [0.1.0](https://github.com/liblaf/lazy-loader/releases/tag/v0.1.0) - 2026-03-19
 
 ### ✨ Features
@@ -16,4 +26,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ❤️ Contributors
 
+- [@liblaf[bot]](https://github.com/apps/liblaf) made their first contribution in [#3](https://github.com/liblaf/lazy-loader/pull/3)
 - [@liblaf](https://github.com/liblaf) made their first contribution
