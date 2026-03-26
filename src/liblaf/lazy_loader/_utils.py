@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from _typeshed import IdentityFunction
 
-
+# ref: <https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Bool>
 _ENV_BOOL_FALSY: set[str] = {
     "0",
     "F",

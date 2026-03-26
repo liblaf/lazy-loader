@@ -9,14 +9,21 @@ function has() {
   type "$@" &> /dev/null
 }
 
+function lock() {
+  local -r git_root="$(git rev-parse --show-toplevel)"
+  local -r name="$(basename -- "$git_root")"
+  mkdir --parents --verbose '/tmp/mise-flock'
+  flock --nonblock --verbose "/tmp/mise-flock/$name.lock" "$@"
+}
+
 if [[ -f 'pixi.lock' ]]; then
   pixi='pixi'
   if has pixi-wrapper.sh; then pixi='pixi-wrapper.sh'; fi
-  "$pixi" install "$@"
+  lock "$pixi" install "$@"
 fi
 
 if [[ -f 'uv.lock' ]]; then
   uv_sync=(uv sync)
   if has uv-sync.sh; then uv_sync=(uv-sync.sh); fi
-  "${uv_sync[@]}" "$@"
+  lock "${uv_sync[@]}" "$@"
 fi

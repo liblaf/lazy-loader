@@ -39,10 +39,18 @@ dynamic = ["version"]
 "Source Code" = "https://github.com/liblaf/lazy-loader"
 
 [dependency-groups]
-dev = ["rich>=14,<15"]
-build = ["check-wheel-contents>=0.6,<0.7", "hatch>=1,<2", "twine>=6,<7"]
-docs = ["liblaf-mkdocs-preset>=0.3,<0.4", "mkdocs>=1,<2"]
-test = ["liblaf-pytest-preset>=0.1,<0.2", "pytest>=9,<10"]
+dev = ["rich>=14"]
+build = ["check-wheel-contents>=0.6", "hatch>=1", "twine>=6"]
+docs = ["liblaf-mkdocs-preset>=0.3", "mkdocs>=1,<2"]
+lint = ["import-linter[ui]>=2", "ruff>=0.15"]
+nox = ["liblaf-nox-recipes>=0.1", "nox>=2026"]
+test = [
+  "pytest>=9",
+  "pytest-cov>=7",
+  "pytest-randomly>=4",
+  "pytest-xdist>=3",
+  { include-group = "dev" }
+]
 
 [build-system]
 requires = ["hatch-vcs", "hatchling"]
@@ -67,17 +75,23 @@ packages = ["src/liblaf"]
 [tool.hatch.version]
 source = "vcs"
 
-[tool.pyright]
-extends = ".config/linters/pyrightconfig.json"
+[tool.importlinter]
+root_package = "liblaf.lazy_loader"
+
+[[tool.importlinter.contracts]]
+ancestors = ["liblaf.lazy_loader"]
+name = "Acyclic siblings"
+type = "acyclic_siblings"
 
 [tool.pytest]
 addopts = [
   "--doctest-modules",
-  "--hypothesis-explain",
   "--import-mode=importlib",
+  "--junit-xml=junit.xml",
   "--showlocals"
 ]
 consider_namespace_packages = true
+junit_family = "legacy"
 strict = true
 testpaths = ["benches", "src", "tests"]
 

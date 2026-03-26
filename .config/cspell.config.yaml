@@ -36,7 +36,6 @@ words:
   - pypi
   - pyplot
   - pyproject
-  - pyrightconfig
   - pytest
   - pyvista
   - sdist
@@ -45,3 +44,4 @@ words:
   - uuidgen
   - venv
   - virtualenv
+  - xdist
