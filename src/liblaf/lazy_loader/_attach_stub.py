@@ -20,6 +20,6 @@ def attach_stub(name: str, package: str | None, file: str) -> tuple[GetAttr, Dir
     visitor.visit(node)
     loader: LazyLoader = visitor.finish(name=name, package=package)
     if env_bool("EAGER_IMPORT", False):  # noqa: FBT003
-        for attr_name in loader.__all__:
+        for attr_name in loader.getters:
             loader.__getattr__(attr_name)
     return loader.__getattr__, loader.__dir__, loader.__all__
