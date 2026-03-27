@@ -19,13 +19,12 @@ words:
   - delenv
   - direnv
   - fieldz
-  - getattr
+  - grimp
   - hynek
   - inlinehilite
   - liblaf
   - mkdocs
   - mkdocstrings
-  - numprocesses
   - numpy
   - pycache
   - pydantic
