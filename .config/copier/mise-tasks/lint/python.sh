@@ -5,5 +5,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-ruff format
+lint-imports
 ruff check --fix
+ruff format

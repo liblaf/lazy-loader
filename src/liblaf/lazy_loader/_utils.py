@@ -1,11 +1,13 @@
-from __future__ import annotations
-
-import contextlib
+import enum
 import os
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from _typeshed import IdentityFunction
+
+class MissingType(enum.Enum):
+    MISSING = enum.auto()
+
+
+MISSING: MissingType = MissingType.MISSING
+
 
 # ref: <https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Bool>
 _ENV_BOOL_FALSY: set[str] = {
@@ -52,20 +54,3 @@ def env_bool(name: str, default: bool = False) -> bool:  # noqa: FBT001, FBT002
         return False
     msg: str = f"Environment variable {name!r} invalid: Not a valid boolean."
     raise ValueError(msg)
-
-
-def export(module: str) -> IdentityFunction:
-    def decorator[F](obj: F) -> F:
-        if hasattr(obj, "__module__"):
-            with contextlib.suppress(Exception):
-                obj.__module__ = module
-        return obj
-
-    return decorator
-
-
-def normalize_qualname[T](obj: T) -> T:
-    if hasattr(obj, "__name__") and hasattr(obj, "__qualname__"):
-        with contextlib.suppress(Exception):
-            obj.__qualname__ = obj.__name__  # ty:ignore[invalid-assignment]
-    return obj

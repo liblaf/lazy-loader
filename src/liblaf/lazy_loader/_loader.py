@@ -1,69 +1,41 @@
-import abc
-import contextlib
 import dataclasses
-import importlib
+import functools
+import sys
 import types
-from typing import Any, override
+from typing import Any
+
+from ._getter import Getter, GetterContext
 
 
-@dataclasses.dataclass(slots=True)
-class LoaderContext:
-    module: str
+@dataclasses.dataclass(frozen=True)
+class LazyLoader:
+    name: str
     package: str | None
+    exports: list[str] | None
+    getters: dict[str, Getter]
 
+    @functools.cached_property
+    def __all__(self) -> list[str]:
+        if self.exports is not None:
+            return self.exports
+        return list(self.getters.keys())
 
-@dataclasses.dataclass(slots=True)
-class Loader(abc.ABC):
-    @property
-    @abc.abstractmethod
-    def attr_name(self) -> str: ...
+    def __dir__(self) -> list[str]:
+        return sorted(set().union(vars(self.module), self.__all__))
 
-    @abc.abstractmethod
-    def load(self, ctx: LoaderContext) -> Any: ...
+    def __getattr__(self, name: str) -> Any:
+        if name not in self.getters:
+            msg: str = f"module '{self.name}' has no attribute '{name}'"
+            raise AttributeError(msg, name=name, obj=self.module)
+        getter: Getter = self.getters[name]
+        value: Any = getter.get(self.context)
+        setattr(self.module, name, value)
+        return value
 
+    @functools.cached_property
+    def context(self) -> GetterContext:
+        return GetterContext(module=self.name, package=self.package)
 
-@dataclasses.dataclass(slots=True)
-class LoaderImport(Loader):
-    name: str
-    asname: str | None
-
-    @property
-    @override
-    def attr_name(self) -> str:
-        if self.asname:
-            return self.asname
-        return self.name.split(".", 1)[0]
-
-    @override
-    def load(self, ctx: LoaderContext) -> Any:
-        if self.asname:
-            return importlib.import_module(self.name, package=ctx.package)
-        importlib.import_module(self.name, package=ctx.package)
-        return importlib.import_module(self.name.split(".", 1)[0], package=ctx.package)
-
-
-@dataclasses.dataclass(slots=True)
-class LoaderImportFrom(Loader):
-    module: str | None
-    name: str
-    asname: str | None
-    level: int
-
-    @property
-    @override
-    def attr_name(self) -> str:
-        return self.asname or self.name
-
-    @override
-    def load(self, ctx: LoaderContext) -> Any:
-        module_name: str = "." * self.level
-        if self.module:
-            module_name += self.module
-        module: types.ModuleType = importlib.import_module(
-            module_name, package=ctx.package
-        )
-        if module.__name__ != ctx.module:  # avoid recursion
-            with contextlib.suppress(AttributeError):
-                return getattr(module, self.name)
-        module_name += f".{self.name}" if self.module else self.name
-        return importlib.import_module(module_name, package=ctx.package)
+    @functools.cached_property
+    def module(self) -> types.ModuleType:
+        return sys.modules[self.name]
