@@ -5,5 +5,8 @@
 [hooks]
 enter = { task = "install" }
 
+[tasks.lint]
+depends = ["lint:python", "lint:toml"]
+
 [tasks."lint:python"]
 run = ["ruff format", "ruff check --fix", "lint-imports"]
