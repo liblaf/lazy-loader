@@ -6,7 +6,7 @@ site_url:
   !ENV [
     READTHEDOCS_CANONICAL_URL,
     SITE_URL,
-    "https://liblaf.github.io/lazy-loader/",
+    "https://liblaf.github.io/lazy-loader/"
   ]
 site_author: "liblaf"
 repo_name: "liblaf/lazy-loader"
@@ -213,9 +213,9 @@ plugins:
 
   autorefs: # ref: <https://mkdocstrings.github.io/autorefs/>
 
-  api-autonav: # ref: <https://github.com/tlambert03/mkdocs-api-autonav>
-    modules:
-      - "src/liblaf"
+  # api-autonav: # ref: <https://github.com/tlambert03/mkdocs-api-autonav>
+  #   modules:
+  #     - "src/liblaf"
 
   # hippogriffe: # ref: <https://github.com/patrick-kidger/hippogriffe>
   # hippogriffe requires `mkdocstrings.python.options.force_inspection: true`. (This is so it can do things like display type annotations correctly.)
