@@ -7,7 +7,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Changelog](https://github.com/conventional-changelog/conventional-changelog-config-spec/blob/master/versions/2.2.0/README.md),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.1](https://github.com/liblaf/lazy-loader/releases/tag/v0.1.1) - 2026-03-19
+## [0.1.2](https://github.com/liblaf/lazy-loader/releases/tag/v0.1.2) - 2026-03-27
+
+### 🛠 Builds
+
+- switch project tooling to nox and uv - [b6e641a](https://github.com/liblaf/lazy-loader/commit/b6e641a4d78ad20eba57d7d05f8f5bf84c9241b9) by [@liblaf](https://github.com/liblaf)
+
+### ❤️ Contributors
+
+- [@renovate[bot]](https://github.com/apps/renovate) made their first contribution in [#10](https://github.com/liblaf/lazy-loader/pull/10)
+- [@liblaf](https://github.com/liblaf)
+- [@liblaf[bot]](https://github.com/apps/liblaf)
+
+## [0.1.1](https://github.com/liblaf/lazy-loader/releases/tag/v0.1.1) - 2026-03-22
 
 ### 🐛 Bug Fixes
 
@@ -15,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ❤️ Contributors
 
+- [@liblaf[bot]](https://github.com/apps/liblaf)
 - [@liblaf](https://github.com/liblaf)
 
 ## [0.1.0](https://github.com/liblaf/lazy-loader/releases/tag/v0.1.0) - 2026-03-19
