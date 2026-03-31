@@ -7,5 +7,5 @@ answers_file_shared: .config/copier/.copier-answers.shared.yaml
 distribution_name: liblaf-lazy-loader
 namespace: liblaf
 package_dir: liblaf/lazy_loader
-package_name: liblaf-lazy-loader
+package_name: liblaf.lazy_loader
 wheel_package_dir: liblaf

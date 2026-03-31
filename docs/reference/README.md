@@ -1,1 +1,1 @@
-# ::: liblaf-lazy-loader
+# ::: liblaf.lazy_loader

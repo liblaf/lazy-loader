@@ -5,7 +5,7 @@
 
 ![lazy-loader](https://socialify.git.ci/liblaf/lazy-loader/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pattern=Transparent&pulls=1&stargazers=1&theme=Auto)
 
-**[Explore the docs »](https://liblaf.github.io/lazy-loader/)**
+**[Explore the docs »](https://liblaf-lazy-loader.readthedocs.io/)**
 
 <!-- tangerine-start: badges/python.md -->
 
