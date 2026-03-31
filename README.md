@@ -28,6 +28,7 @@
 - 🔁 **Absolute and relative import support:** Handle both local package imports and external modules, including aliased imports.
 - ⚡ **Optional eager mode:** Set `EAGER_IMPORT=1` to resolve every declared export at import time when startup indirection is not wanted.
 - 🧭 **Typed, tiny surface area:** Ship as a typed package with no runtime dependencies and a small public API centered on `attach_stub` and `LazyLoader`.
+- 🔄 **Drop-in `attach_stub` call:** Support the familiar `attach_stub(__name__, __file__)` signature, with an optional trailing `__package__` override when needed.
 
 ## 📦 Installation
 
@@ -45,7 +46,13 @@ In `mypkg/__init__.py`, wire the package up once:
 ```python
 from liblaf.lazy_loader import attach_stub
 
-__getattr__, __dir__, __all__ = attach_stub(__name__, __package__, __file__)
+__getattr__, __dir__, __all__ = attach_stub(__name__, __file__)
+```
+
+If you need to pass an explicit package anchor, use the optional third argument:
+
+```python
+__getattr__, __dir__, __all__ = attach_stub(__name__, __file__, __package__)
 ```
 
 In the sibling `mypkg/__init__.pyi`, declare the exports you want to load lazily:
@@ -60,7 +67,7 @@ import rich.console as rich_console
 __all__ = ["Settings", "cli", "get_console", "make_settings", "rich_console"]
 ```
 
-With that wiring in place, `Settings`, `cli`, `make_settings`, `get_console`, and `rich_console` are imported only when first accessed. The sibling `.pyi` file is part of the runtime configuration here, not only a type-checking aid.
+With that wiring in place, `Settings`, `cli`, `make_settings`, `get_console`, and `rich_console` are imported only when first accessed. When the third argument is omitted entirely, `attach_stub` uses `__name__` as the package anchor, which makes the two-argument form work as a drop-in replacement for `lazy_loader.attach_stub` in package `__init__.py` files. Passing `None` explicitly preserves `None`. The sibling `.pyi` file is part of the runtime configuration here, not only a type-checking aid.
 
 ## 🧩 Supported Stub Forms
 

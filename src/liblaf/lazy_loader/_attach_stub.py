@@ -1,10 +1,10 @@
 import ast
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any
+from typing import Any, overload
 
 from ._loader import LazyLoader
-from ._utils import env_bool
+from ._utils import MISSING, MissingType, env_bool
 from ._visitor import StubVisitor
 
 type GetAttr = Callable[[str], Any]
@@ -12,7 +12,15 @@ type Dir = Callable[[], list[str]]
 type All = list[str]
 
 
-def attach_stub(name: str, package: str | None, file: str) -> tuple[GetAttr, Dir, All]:
+@overload
+def attach_stub(name: str, file: str) -> tuple[GetAttr, Dir, All]: ...
+@overload
+def attach_stub(
+    name: str, file: str, package: str | None
+) -> tuple[GetAttr, Dir, All]: ...
+def attach_stub(
+    name: str, file: str, package: str | None | MissingType = MISSING
+) -> tuple[GetAttr, Dir, All]:
     """Create module hooks from a sibling stub file.
 
     Call this from a package `__init__.py` and assign the returned values to
@@ -23,10 +31,13 @@ def attach_stub(name: str, package: str | None, file: str) -> tuple[GetAttr, Dir
 
     Args:
         name: Module name, typically `__name__`.
-        package: Package name used to resolve relative imports, typically
-            `__package__`.
         file: Path to the module file whose sibling `.pyi` file declares the
             lazy exports, typically `__file__`.
+        package: Optional package name used to resolve relative imports,
+            typically `__package__`. When the argument is omitted entirely,
+            `name` is reused so `attach_stub(__name__, __file__)` works as a
+            drop-in call for package `__init__.py` modules. Passing `None`
+            explicitly preserves `None`.
 
     Returns:
         A tuple containing `__getattr__`, `__dir__`, and `__all__` in that
@@ -40,6 +51,8 @@ def attach_stub(name: str, package: str | None, file: str) -> tuple[GetAttr, Dir
         ImportError: If eager loading is enabled and one of the declared
             imports cannot be resolved.
     """
+    if package is MISSING:
+        package = name
     file: Path = Path(file)
     stub_file: Path = file.with_suffix(".pyi")
     node: ast.Module = ast.parse(stub_file.read_text())
