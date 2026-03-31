@@ -17,31 +17,35 @@ words:
   - arithmatex
   - asname
   - delenv
-  - direnv
+  - dotenv
   - fieldz
-  - getattr
+  - grimp
   - hynek
   - inlinehilite
   - liblaf
+  - linenums
+  - lucide
   - mkdocs
   - mkdocstrings
-  - numprocesses
   - numpy
+  - pipx
   - pycache
   - pydantic
   - pydocstyle
+  - pygments
   - pylint
   - pymdownx
   - pypa
   - pypi
   - pyplot
-  - pyproject
   - pytest
   - pyvista
+  - rumdl
   - sdist
-  - tombi
+  - taiki
   - trimesh
-  - uuidgen
+  - twemoji
   - venv
   - virtualenv
   - xdist
+  - zensical

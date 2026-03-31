@@ -2,6 +2,24 @@ import inspect
 import sys
 
 
+def test_dir() -> None:
+    from . import fake_pkg
+
+    expected: list[str] = [
+        "a",
+        "b",
+        "c",
+        "console",
+        "d",
+        "e",
+        "get_console",
+        "rich",
+        "rich_console",
+    ]
+    assert fake_pkg.__all__ == expected
+    assert set(dir(fake_pkg)) >= set(expected)
+
+
 def test_relative() -> None:
     assert "tests.fake_pkg" not in sys.modules
     assert "tests.fake_pkg._from_import" not in sys.modules

@@ -31,7 +31,7 @@ dynamic = ["version"]
 [project.urls]
 # ref: <https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels>
 "Changelog" = "https://github.com/liblaf/lazy-loader/blob/main/CHANGELOG.md"
-"Documentation" = "https://liblaf.github.io/lazy-loader/"
+"Documentation" = "https://liblaf-lazy-loader.readthedocs.io/"
 "Funding" = "https://github.com/liblaf/lazy-loader?sponsor=1"
 "Homepage" = "https://github.com/liblaf/lazy-loader"
 "Issue Tracker" = "https://github.com/liblaf/lazy-loader/issues"
@@ -41,7 +41,14 @@ dynamic = ["version"]
 [dependency-groups]
 dev = ["rich>=14"]
 build = ["check-wheel-contents>=0.6", "hatch>=1", "twine>=6"]
-docs = ["liblaf-mkdocs-preset>=0.3", "mkdocs>=1,<2"]
+docs = [
+  "griffe-fieldz>=0.5",
+  "griffe-inherited-docstrings>=1",
+  "griffe-pydantic>=1",
+  "griffe-warnings-deprecated>=1",
+  "mkdocstrings[python]>=1",
+  "zensical>=0.0.30"
+]
 lint = ["import-linter[ui]>=2", "ruff>=0.15"]
 nox = ["liblaf-nox-recipes>=0.1", "nox>=2026"]
 test = [

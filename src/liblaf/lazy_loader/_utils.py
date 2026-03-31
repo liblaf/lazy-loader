@@ -1,11 +1,13 @@
-from __future__ import annotations
-
-import contextlib
+import enum
 import os
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from _typeshed import IdentityFunction
+
+class MissingType(enum.Enum):
+    MISSING = enum.auto()
+
+
+MISSING: MissingType = MissingType.MISSING
+
 
 # ref: <https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Bool>
 _ENV_BOOL_FALSY: set[str] = {
@@ -43,6 +45,19 @@ _ENV_BOOL_TRUTHY: set[str] = {
 
 
 def env_bool(name: str, default: bool = False) -> bool:  # noqa: FBT001, FBT002
+    """Parse an environment variable as a boolean.
+
+    Args:
+        name: Environment variable name to read.
+        default: Value to return when the variable is unset.
+
+    Returns:
+        The parsed boolean value.
+
+    Raises:
+        ValueError: If the environment variable is set but does not match one
+            of the accepted truthy or falsy strings.
+    """
     value: str | None = os.getenv(name)
     if value is None:
         return default
@@ -52,20 +67,3 @@ def env_bool(name: str, default: bool = False) -> bool:  # noqa: FBT001, FBT002
         return False
     msg: str = f"Environment variable {name!r} invalid: Not a valid boolean."
     raise ValueError(msg)
-
-
-def export(module: str) -> IdentityFunction:
-    def decorator[F](obj: F) -> F:
-        if hasattr(obj, "__module__"):
-            with contextlib.suppress(Exception):
-                obj.__module__ = module
-        return obj
-
-    return decorator
-
-
-def normalize_qualname[T](obj: T) -> T:
-    if hasattr(obj, "__name__") and hasattr(obj, "__qualname__"):
-        with contextlib.suppress(Exception):
-            obj.__qualname__ = obj.__name__  # ty:ignore[invalid-assignment]
-    return obj
