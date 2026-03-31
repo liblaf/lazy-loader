@@ -45,6 +45,19 @@ _ENV_BOOL_TRUTHY: set[str] = {
 
 
 def env_bool(name: str, default: bool = False) -> bool:  # noqa: FBT001, FBT002
+    """Parse an environment variable as a boolean.
+
+    Args:
+        name: Environment variable name to read.
+        default: Value to return when the variable is unset.
+
+    Returns:
+        The parsed boolean value.
+
+    Raises:
+        ValueError: If the environment variable is set but does not match one
+            of the accepted truthy or falsy strings.
+    """
     value: str | None = os.getenv(name)
     if value is None:
         return default

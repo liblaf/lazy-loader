@@ -19,7 +19,7 @@
 
 </div>
 
-`liblaf-lazy-loader` lets Python packages expose imports lazily from a sibling stub file, so modules stay lightweight until an attribute is actually used.
+`liblaf-lazy-loader` lets Python packages expose stub-driven lazy exports with both absolute imports and package-relative imports.
 
 ## ✨ Features
 
@@ -40,7 +40,7 @@ uv add liblaf-lazy-loader
 
 ## 🚀 Quick Start
 
-Expose lazy attributes from your package `__init__.py`:
+In `mypkg/__init__.py`, wire the package up once:
 
 ```python
 from liblaf.lazy_loader import attach_stub
@@ -48,17 +48,51 @@ from liblaf.lazy_loader import attach_stub
 __getattr__, __dir__, __all__ = attach_stub(__name__, __package__, __file__)
 ```
 
-Define the exported imports in the sibling `__init__.pyi`:
+In the sibling `mypkg/__init__.pyi`, declare the exports you want to load lazily:
 
 ```python
-from ._core import Widget
-from ._helpers import make_widget
+from . import cli
+from ._config import Settings
+from ._factory import make_settings
+from rich import get_console
 import rich.console as rich_console
 
-__all__ = ["Widget", "make_widget", "rich_console"]
+__all__ = ["Settings", "cli", "get_console", "make_settings", "rich_console"]
 ```
 
-With that wiring in place, `Widget`, `make_widget`, and `rich_console` are imported only when first accessed. If you need everything loaded immediately, set `EAGER_IMPORT=1` before importing the package.
+With that wiring in place, `Settings`, `cli`, `make_settings`, `get_console`, and `rich_console` are imported only when first accessed. The sibling `.pyi` file is part of the runtime configuration here, not only a type-checking aid.
+
+## 🧩 Supported Stub Forms
+
+The stub parser understands the explicit import forms that the test suite covers:
+
+- `import rich`
+- `import rich.console as rich_console`
+- `from rich import get_console`
+- `from . import cli`
+- `from ._factory import make_settings`
+- `from ._factory import make_settings as build_settings`
+
+`__all__` stays aligned with the stub definition, and `dir()` includes both declared exports and any names already materialized on the module.
+
+## ⚡ Eager Import Mode
+
+Lazy loading defers import errors until the first attribute access. During development or tests, set `EAGER_IMPORT=1` before importing the package to resolve every declared export immediately.
+
+The current test suite also covers `EAGER_IMPORT=0` for normal lazy behavior and raises a `ValueError` when `EAGER_IMPORT` is set to an invalid boolean string.
+
+## 🚧 Limitations and Errors
+
+- Accessing a name that is not declared in the stub raises `AttributeError`.
+- Import failures surface when the lazy attribute is accessed, or earlier if eager mode is enabled.
+- The package expects explicit import statements in the sibling stub file and uses that stub file at runtime.
+
+## 🔍 Compared With Alternatives
+
+This project parses the sibling stub AST directly, so the runtime behavior is defined by the same file that type checkers read.
+
+- [`scientific-python/lazy-loader.attach_stub`](https://github.com/scientific-python/lazy-loader) parses stubs into its older `attach(...)` API. In its current implementation, the stub visitor only accepts within-package `from . import ...` and `from .foo import ...` forms and raises `ValueError` for other patterns, so it cannot express absolute entries like `import rich.console as rich_console` in the stub. See the [README](https://github.com/scientific-python/lazy-loader) and [source](https://raw.githubusercontent.com/scientific-python/lazy-loader/main/src/lazy_loader/__init__.py).
+- [`etils.epy.lazy_api_imports`](https://etils.readthedocs.io/en/latest/api/epy/lazy_api_imports.html) records imports by temporarily wrapping `builtins.__import__`. Its underlying lazy import helper rejects relative imports with a `ValueError`, so it is not a drop-in fit for sibling package-relative exports. See the [API docs](https://etils.readthedocs.io/en/latest/api/epy/lazy_api_imports.html) and [source](https://cdn.jsdelivr.net/gh/google/etils@main/etils/epy/lazy_api_imports_utils.py).
 
 ## ⌨️ Local Development
 
