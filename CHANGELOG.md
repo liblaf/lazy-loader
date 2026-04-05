@@ -7,6 +7,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Changelog](https://github.com/conventional-changelog/conventional-changelog-config-spec/blob/master/versions/2.2.0/README.md),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.2.1](https://github.com/liblaf/lazy-loader/releases/tag/v0.2.1) - 2026-04-02
+
+### ⚙️ Continuous Integrations
+
+- **(deps)** update taiki-e/install-action digest to 6ef672e (#13) - [4ca9bd5](https://github.com/liblaf/lazy-loader/commit/4ca9bd573d6774c7ca04b7f0e9f152788e903ee0) by [@renovate[bot]](https://github.com/apps/renovate) in [#13](https://github.com/liblaf/lazy-loader/pull/13)
+- **(deps)** update taiki-e/install-action digest to bfadeab (#17) - [9dfbf23](https://github.com/liblaf/lazy-loader/commit/9dfbf23e8b5ddb8cedac6d6faf258619d7458df5) by [@renovate[bot]](https://github.com/apps/renovate) in [#17](https://github.com/liblaf/lazy-loader/pull/17)
+- **(deps)** update codspeedhq/action digest to d872884 (#15) - [21e33d2](https://github.com/liblaf/lazy-loader/commit/21e33d2fcfdee026cb5f89961f0f70aca78e21f1) by [@renovate[bot]](https://github.com/apps/renovate) in [#15](https://github.com/liblaf/lazy-loader/pull/15)
+- **(deps)** update taiki-e/install-action digest to 0cccd59 (#18) - [e2e04e4](https://github.com/liblaf/lazy-loader/commit/e2e04e4f86e8182cdd85d0b754e4d6882b2a7dac) by [@renovate[bot]](https://github.com/apps/renovate) in [#18](https://github.com/liblaf/lazy-loader/pull/18)
+- **(deps)** update taiki-e/install-action digest to d858f81 (#19) - [1755061](https://github.com/liblaf/lazy-loader/commit/17550610ec1d0df3f03e647985925f7797666d2e) by [@renovate[bot]](https://github.com/apps/renovate) in [#19](https://github.com/liblaf/lazy-loader/pull/19)
+
+### ❤️ Contributors
+
+- [@renovate[bot]](https://github.com/apps/renovate) made their first contribution in [#19](https://github.com/liblaf/lazy-loader/pull/19)
+
 ## [v0.2.0](https://github.com/liblaf/lazy-loader/releases/tag/v0.2.0) - 2026-03-31
 
 ### 💥 BREAKING CHANGES
@@ -27,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ❤️ Contributors
 
+- [@liblaf-release-please[bot]](https://github.com/apps/liblaf-release-please) made their first contribution in [#14](https://github.com/liblaf/lazy-loader/pull/14)
 - [@liblaf](https://github.com/liblaf)
 - [@liblaf[bot]](https://github.com/apps/liblaf)
 
